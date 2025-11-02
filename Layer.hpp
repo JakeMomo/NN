@@ -19,29 +19,15 @@ void layer(T const poids[nbNeurones][inSize], T const biais[nbNeurones], T const
     vecAdd<T, nbNeurones>(intermediaire, biais, output);
 }
 
-template<typename T>
-class Layer {
+template<typename T, int inputSize, int outputSize>
+struct Layer {
 public:
-    Activation *activation;
+    Activation<T> *activation;
     T** poids;
     T* biais;
 
 
-    template<int nbNeurones, int inSize>
-    Layer(Activation* a, T p[nbNeurones][inSize], T b[nbNeurones]) {
-        activation = a;
-        poids = poids;
-        biais = biais;
-    }
-
-    ~Layer() {
-        delete[] poids;
-        delete[] biais;
-        delete activation;
-    }
-
-    template<int size>
-    void forward();
+    virtual void forward(T input[inputSize], T output[outputSize]){};
 };
 
 #endif //LAYER_H

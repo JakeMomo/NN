@@ -1,10 +1,11 @@
 #include <iostream>
 #include "matops.hpp"
-#include "layer.hpp"
+#include "Layer.hpp"
 #include <iomanip>
 #include "activation.hpp"
 #include "utils.hpp"
 #include <cstring>
+#include "Dense.hpp"
 
 using namespace std;
 
@@ -56,7 +57,7 @@ int main() {
 	double delta2[2][2];
 	double taux = 0.5;
 
-	Sigmoid s;
+	Sigmoid<float> s;
 	cout << s.eval(2) << endl;
 	cout << 1/(1+exp(-2)) << endl;
 
@@ -71,6 +72,8 @@ int main() {
 
 	matSub<double,2,2>(poids1, correction, poids1);
 	printMat<double,2,2>(poids1);
+
+	Dense<double,2,2>* test = new Dense<double, 2, 2>(poids1, biais1, new Sigmoid<double>());
 
 
 

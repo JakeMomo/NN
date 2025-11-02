@@ -15,23 +15,23 @@ void sigmoid(T const in[size], T out[size]) {
 }
 
 
+template<typename T>
 struct Activation {
 
 public:
-    template<typename T>
+
     double eval(T nb);
 
-    template<typename T, int size>
+    template<int size>
     void eval(T const vec[size], T output[size]) {
         for(int i=0 ; i<size ; i++) {
             output[i] = calcul(vec[i]);
         }
     }
 
-    template <typename T>
     double derivee(T nb);
 
-    template <typename T, int size>
+    template <int size>
     void derivee(T vec[]) {
         for(int i=0 ; i<size ; i++) {
             vec[i] = derivee(vec[i]);
@@ -40,14 +40,15 @@ public:
 };
 
 
-struct Sigmoid: Activation {
+template<typename T>
+struct Sigmoid: Activation<T> {
 public:
-    template<typename T>
+
     double eval(T nb) {
         return 1 / (1 + exp(-nb));
     }
 
-    template <typename T>
+
     double derivee(T nb) {
         T res = eval(nb);
         return res * (1 - res);

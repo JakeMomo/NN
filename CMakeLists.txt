@@ -4,4 +4,4 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_executable(NN main.cpp
         matops.hpp
-        layer.h)
+        Layer.hpp)

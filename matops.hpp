@@ -49,6 +49,13 @@ void vecAdd(T const vec1[size], T const vec2[size], T res[size]){
 	}
 }
 
+template<typename T, int size>
+void vecAcc(T vec1[size], T const vec2[size]){
+	for(int i=0 ; i<size ; i++) {
+		vec1[i] += vec2[i];
+	}
+}
+
 template<typename T, int M, int N>
 void matVecMul(T const mat[M][N], T const vec[N], T res [M]) {
 	memset(res, 0, M * sizeof(T));
