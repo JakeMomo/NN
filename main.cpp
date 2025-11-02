@@ -10,20 +10,22 @@
 using namespace std;
 
 template<typename T, int line, int col>
-void printMat(T const mat[line][col]) {
+void printMat(T* const mat) {
 	for (int i=0 ; i<line ; i++) {
 		for (int j=0 ; j<col ; j++) {
-			cout << fixed << setprecision(10) << mat[i][j] << " ";
+			cout << fixed << setprecision(10) << mat[i * col +j] << " ";
 		}
-		cout << std::endl;
+		cout << endl;
 	}
+	cout << endl;
 }
 template<typename T, int line>
 void printVec(T const mat[line]) {
 	for (int i=0 ; i<line ; i++) {
 		cout << fixed << setprecision(10) << mat[i] << " ";
-		cout << std::endl;
+		cout << endl;
 	}
+	cout << endl;
 }
 
 	template <typename T, int sizeIn, int nbNeurones1, int nbNeurones2>
@@ -41,40 +43,26 @@ void deltaRule3(T const input[sizeIn], T const output[nbNeurones2], T const targ
 
 
 int main() {
-	double poids1[2][2] = {{.15,.20}, {.25,.30}};
-	double poids2[2][2] = {{.40,.45},{.5,.55}};
+	float mat1[] = {0.1,0.3,0.2,0.4};
+	float mat2[] = {0.5,0.6,0.7,0.8};
+	float biais1[] = {0.25,0.25};
+	float biais2[] = {0.35,0.35};
+	float input[] = {0.1,0.5};
+	float res1[2];
+	float res2[2];
+	float target[2] = {0.05, 0.95};
+	float delta[2][2];
 
-	double biais1[2] = {0.35,0.35};
-	double biais2[2] = {0.6,0.6};
+	Dense<float, 2,2> layer1(mat1, biais1, new Sigmoid<float>());
+	Dense<float, 2,2> layer2(mat2, biais2, new Sigmoid<float>());
 
-	double input1[2] = {0.05, 0.10};
-	double intermediaire1[2];
-	double intermediaire2[2];
-	double intermediaire3[2];
-	double output[2];
-	double target[2] = {0.01, 0.99};
-	double delta[2][2];
-	double delta2[2][2];
-	double taux = 0.5;
+	layer1.forward(input, res1);
+	printVec<float, 2>(res1);
+	layer2.forward(res1, res2);
+	printVec<float, 2>(res2);
 
-	Sigmoid<float> s;
-	cout << s.eval(2) << endl;
-	cout << 1/(1+exp(-2)) << endl;
-
-	layer<double,2,2>(poids1, biais1, input1, intermediaire1);
-	sigmoid<double, 2>(intermediaire1, intermediaire2);
-
-	layer<double,2,2>(poids2, biais2, intermediaire2, intermediaire3);
-	sigmoid<double, 2>(intermediaire3, output);
-
-	double correction[2][2];
-	deltaRule3<double,2,2,2>(input1, output, target, poids2, intermediaire2, taux, correction);
-
-	matSub<double,2,2>(poids1, correction, poids1);
-	printMat<double,2,2>(poids1);
-
-	Dense<double,2,2>* test = new Dense<double, 2, 2>(poids1, biais1, new Sigmoid<double>());
-
+	layer2.backward(res1, res2, target, 0.6);
+	printMat<float,2,2>(layer2.poids);
 
 
 	return 0;

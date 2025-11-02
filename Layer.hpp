@@ -23,8 +23,14 @@ template<typename T, int inputSize, int outputSize>
 struct Layer {
 public:
     Activation<T> *activation;
-    T** poids;
+    T* poids;
     T* biais;
+
+    ~Layer() {
+        free(activation);
+        free(poids);
+        free(biais);
+    }
 
 
     virtual void forward(T input[inputSize], T output[outputSize]){};

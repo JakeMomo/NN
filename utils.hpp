@@ -19,7 +19,7 @@ T squareError(T const vec[size], T const ref[size]) {
 // transfer' = dérivée de la fonctione de transfert
 // MARCHE UNIQUEMENT POUR SIGMOID ET SQUARE ERROR
 template <typename T, int sizeIn, int nbNeurones>
-void deltaRule(T const poids[nbNeurones][sizeIn], T const biais[nbNeurones], T const entree[sizeIn], T const sortie_poids[nbNeurones], T const sortie_sigmoid[nbNeurones], T const target[sizeIn], T taux, T vecDelta[nbNeurones][sizeIn])
+void deltaRule(T const poids[nbNeurones][sizeIn], T const biais[nbNeurones], T const entree[sizeIn], T const sortie_sigmoid[nbNeurones], T const target[sizeIn], T taux, T vecDelta[nbNeurones][sizeIn])
 {
     for(int i=0 ; i<nbNeurones ; i++) {
         for(int j=0 ; j<sizeIn ; j++) {
